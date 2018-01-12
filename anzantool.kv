@@ -39,26 +39,27 @@
             dash_offset: 5
             dash_length: 3
 
+AnzanFlash:
+
 <AnzanFlash>:
-    BoxLayout:
-        orientation: 'vertical'
-        current_number: number_display
-        Button:
-            size_hint_y: .1
-            font_size: '50dp'
-            text: 'back'
-            on_press: root.parent.manager.current = 'anzan_menu'
-        Button:
-            id: number_display
-            size_hint_y: 1
-            background_color: 0, 0, 0, 1
-            font_size: '200dp'
-            text: str(root.current_number)
-            on_press: root.next_number()
+    orientation: 'vertical'
+    Button:
+        size_hint_y: .1
+        font_size: '50dp'
+        text: 'back'
+        on_press: root.parent.manager.current = 'anzan_menu'
+    Button:
+        id: number_display
+        size_hint_y: 1
+        background_color: 0, 0, 0, 1
+        font_size: '200dp'
+        text: str(root.current_number)
+        on_press: root.next_number()
 
 
 <AnzanFlashScreen>:
-    AnzanFlash:
+    BoxLayout:
+        AnzanFlash:
 
                 
 

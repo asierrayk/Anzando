@@ -16,9 +16,6 @@ class AnzanFlash(BoxLayout):
     current_number = StringProperty()
     n = 0
 
-    # def on_number(self, instance, value):
-    #     print(instance, value)
-
     def next_number(self):
         print(self.current_number)
         self.n += 1
@@ -37,17 +34,18 @@ class SettingsMenuScreen(Screen):
 
 class AnzanToolApp(App):
     def build(self):
-        sm = ScreenManager(transition=NoTransition())
-        sm.add_widget(MainMenuScreen(name='main_menu'))
+        pass
+        # sm = ScreenManager(transition=NoTransition())
+        # sm.add_widget(MainMenuScreen(name='main_menu'))
 
-        sm.add_widget(AnzanMenuScreen(name='anzan_menu'))
-        sm.add_widget(AnzanFlashScreen(name='play_flash_anzan'))
+        # sm.add_widget(AnzanMenuScreen(name='anzan_menu'))
+        # sm.add_widget(AnzanFlashScreen(name='play_flash_anzan'))
 
-        sm.add_widget(DateMenuScreen(name='date_menu'))
+        # sm.add_widget(DateMenuScreen(name='date_menu'))
 
-        sm.add_widget(SettingsMenuScreen(name='settings_menu'))
+        # sm.add_widget(SettingsMenuScreen(name='settings_menu'))
 
-        return sm
+        # return sm
         # return AnzanFlashScreen(name='play_flash_anzan')
 
 if __name__ == '__main__':
