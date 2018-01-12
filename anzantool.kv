@@ -1,0 +1,86 @@
+
+<MenuButton@Button>:
+    font_size: '32dp'
+
+<MainMenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '30dp'
+        padding: '30dp'
+        MenuButton:
+            text: 'Anzan'
+            on_press: root.manager.current = 'anzan_menu'
+        MenuButton:
+            text: 'Day of week'
+            on_press: root.manager.current = 'date_menu'
+        MenuButton:
+            text: 'Settings'
+            on_press: root.manager.current = 'settings_menu'
+        MenuButton:
+            text: 'Quit'
+            on_press: app.stop()
+
+<AnzanMenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '30dp'
+        padding: '30dp'
+        MenuButton:
+            text: 'Play'
+            on_press: root.manager.current = 'play_flash_anzan'
+        MenuButton:
+            text: 'Back'
+            on_press: root.manager.current = 'main_menu'
+
+<Widget>:
+    canvas.after:
+        Line:
+            rectangle: self.x+1,self.y+1,self.width-1,self.height-1
+            dash_offset: 5
+            dash_length: 3
+
+<AnzanFlash>:
+    BoxLayout:
+        orientation: 'vertical'
+        current_number: number_display
+        Button:
+            size_hint_y: .1
+            font_size: '50dp'
+            text: 'back'
+            on_press: root.parent.manager.current = 'anzan_menu'
+        Button:
+            id: number_display
+            size_hint_y: 1
+            background_color: 0, 0, 0, 1
+            font_size: '200dp'
+            text: str(root.current_number)
+            on_press: root.next_number()
+
+
+<AnzanFlashScreen>:
+    AnzanFlash:
+
+                
+
+<DateMenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '30dp'
+        padding: '30dp'
+        MenuButton:
+            text: 'Play'
+            on_press: root.manager.current = 'play_date'
+        MenuButton:
+            text: 'Back'
+            on_press: root.manager.current = 'main_menu'
+
+<SettingsMenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '30dp'
+        padding: '30dp'
+        MenuButton:
+            text: 'My settings button'
+        MenuButton:
+            text: 'Back to menu'
+            on_press: root.manager.current = 'main_menu'
