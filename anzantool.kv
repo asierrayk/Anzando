@@ -80,6 +80,7 @@
             on_press: root.key_press(self.text)
         KeyboardButton:
             text: 'ok'
+            on_press: root.parent.check_answer(root.number)
 
 <AnzanMenuScreen>:
     GridLayout:
@@ -138,8 +139,6 @@
         on_press: root.next_number()
 
 <AnzanManualRoot>:
-    orientation: 'vertical'
-    AnzanManual:
 
 <AnzanManualScreen@Screen>:
     name: 'play_manual_anzan'
@@ -147,19 +146,6 @@
 
 # FLASH #
 <AnzanFlash>:
-    orientation: 'vertical'
-    Button:
-        size_hint_y: .1
-        font_size: '50dp'
-        text: 'back'
-        on_press: app.root.current = 'anzan_menu'
-    Button:
-        id: number_display
-        size_hint_y: 1
-        background_color: 0, 0, 0, 1
-        font_size: '200dp'
-        text: str(root.current_number)
-        on_press: root.next_number()
 
 
 <AnzanFlashScreen>:

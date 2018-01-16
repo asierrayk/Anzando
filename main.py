@@ -88,22 +88,45 @@ class AnzanFlashScreen(Screen):
 # MANUAL #
 class AnzanManual(BoxLayout):
     current_number = StringProperty()
-    numbers, result = anzan_addition()
-    it = iter(numbers)
+
+    def __init__(self, numbers, **kwargs):
+        super(AnzanManual,self).__init__(**kwargs)
+        self.iter_numbers = iter(numbers)
 
     def next_number(self):
         try:
-            n = next(self.it)
+            n = next(self.iter_numbers)
             self.current_number = str(n)
         except StopIteration:
             self.parent.show_keyboard('keyboard_layout')
 
 class AnzanManualRoot(BoxLayout):
+
+    def __init__(self, **kwargs):
+        super(AnzanManualRoot,self).__init__(**kwargs)
+        self.numbers, self.result = anzan_addition()
+        anzan_manual = Factory.AnzanManual(self.numbers)
+        self.add_widget(anzan_manual)
+
+    def new_exercise(self):
+        self.numbers, self.result = anzan_addition()
+        self.clear_widgets()
+        anzan_manual = Factory.AnzanManual(self.numbers)
+        self.add_widget(anzan_manual)
+
     def show_keyboard(self, keyboard_layout):
         self.clear_widgets()
         keyboard = Factory.AnzanKeyboard()
         # keyboard.layout = keyboard_layout
         self.add_widget(keyboard)
+
+    def check_answer(self, answer):
+        if answer == self.result:
+            print(True)
+        else:
+            print(False)
+
+        self.new_exercise()
 
 class AnzanManualScreen(Screen):
     pass
