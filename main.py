@@ -73,6 +73,20 @@ class AnzanKeyboard(BoxLayout):
             print('more digits positive')
             self.number = self.number // 10
 
+class AnzanResult(BoxLayout):
+    mark = StringProperty()
+    result = NumericProperty()
+    answer = NumericProperty()
+
+    def __init__(self, result, answer, **kwargs):
+        super(AnzanResult,self).__init__(**kwargs)
+        self.result = result
+        self.answer = answer
+
+        if self.answer == self.result:
+            self.mark = 'Correct!'
+        else:
+            self.mark = 'Wrong'
 
 
 # FLASH #
@@ -92,6 +106,7 @@ class AnzanManual(BoxLayout):
     def __init__(self, numbers, **kwargs):
         super(AnzanManual,self).__init__(**kwargs)
         self.iter_numbers = iter(numbers)
+        self.next_number()
 
     def next_number(self):
         try:
@@ -121,12 +136,13 @@ class AnzanManualRoot(BoxLayout):
         self.add_widget(keyboard)
 
     def check_answer(self, answer):
+        self.clear_widgets()
+        check = Factory.AnzanResult(self.result, answer)
+        self.add_widget(check)
         if answer == self.result:
             print(True)
         else:
             print(False)
-
-        self.new_exercise()
 
 class AnzanManualScreen(Screen):
     pass

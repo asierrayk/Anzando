@@ -22,6 +22,37 @@
 
 ####### ANZAN #######
 
+<AnzanResult>:
+    orientation: 'vertical'
+    Button:
+        size_hint_y: .7
+        background_color: 0, 0, 0, 1
+        text: root.mark
+        font_size: '72dp'
+        on_press: root.parent.new_exercise()
+    BoxLayout:
+        size_hint_y: .1
+        Label:
+            text: "Result"
+            font_size: '30dp'
+        Label:
+            text: str(root.result)
+            font_size: '30dp'
+    BoxLayout:
+        size_hint_y: .1
+        Label:
+            text: "Your answer"
+            font_size: '30dp'
+        Label:
+            text: str(root.answer)
+            font_size: '30dp'
+    Button:
+        size_hint_y: .1
+        font_size: '20dp'
+        text: 'back'
+        on_press: app.root.current = 'anzan_menu'
+
+
 <KeyboardButton@Button>:
     font_size: '32dp'
 
@@ -125,11 +156,6 @@
 # MANUAL #
 <AnzanManual>:
     orientation: 'vertical'
-    Button:
-        size_hint_y: .1
-        font_size: '50dp'
-        text: 'back'
-        on_press: app.root.current = 'anzan_menu'
     Button:
         id: number_display
         size_hint_y: 1
