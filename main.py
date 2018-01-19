@@ -9,6 +9,8 @@ from kivy.factory import Factory
 
 from anzan import anzan_addition
 
+__version__ = '0.0.0'
+
 ####### MENUS #######
 class MainMenuScreen(Screen):
     pass
@@ -59,19 +61,18 @@ class AnzanKeyboard(BoxLayout):
 
     def clear(self):
         if self.number is None:
-            print('none')
             if self.negative:
-                print('negative')
                 self.negative = not self.negative
         elif len(str(abs(self.number))) == 1:
-            print('one_digit')
             self.number = None
         elif self.negative:
-            print('more digits negative')
             self.number = -(self.number // -10)
         else:
-            print('more digits positive')
             self.number = self.number // 10
+
+    def ok(self):
+        if self.number is not None:
+            self.parent.check_answer(self.number)
 
 class AnzanResult(BoxLayout):
     mark = StringProperty()
@@ -125,6 +126,11 @@ class AnzanManualRoot(BoxLayout):
 
     def new_exercise(self):
         self.numbers, self.result = anzan_addition()
+        self.clear_widgets()
+        anzan_manual = Factory.AnzanManual(self.numbers)
+        self.add_widget(anzan_manual)
+
+    def repeat_exercise(self):
         self.clear_widgets()
         anzan_manual = Factory.AnzanManual(self.numbers)
         self.add_widget(anzan_manual)

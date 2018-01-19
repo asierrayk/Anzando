@@ -1,3 +1,4 @@
+#:import Factory kivy.factory.Factory
 
 <MenuButton@Button>:
     font_size: '32dp'
@@ -9,16 +10,28 @@
         padding: '30dp'
         MenuButton:
             text: 'Anzan'
-            on_press: root.manager.current = 'anzan_menu'
+            on_release: root.manager.current = 'anzan_menu'
         MenuButton:
             text: 'Day of week'
-            on_press: root.manager.current = 'date_menu'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Settings'
-            on_press: root.manager.current = 'settings_menu'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Quit'
-            on_press: app.stop()
+            on_release: app.stop()
+
+<NotImplementedPopup@Popup>:
+    size_hint: .5, .5
+    auto_dismiss: False
+    title: 'Information'
+    title_size: '30dp'
+    Button:
+        text: 'This feature is not implemented yet'
+        text_size: root.width, None
+        font_size: '20dp'
+        halign: 'center'
+        on_release: root.dismiss()
 
 ####### ANZAN #######
 
@@ -29,7 +42,7 @@
         background_color: 0, 0, 0, 1
         text: root.mark
         font_size: '72dp'
-        on_press: root.parent.new_exercise()
+        on_release: root.parent.new_exercise()
     BoxLayout:
         size_hint_y: .1
         Label:
@@ -46,11 +59,20 @@
         Label:
             text: str(root.answer)
             font_size: '30dp'
-    Button:
+    BoxLayout:
         size_hint_y: .1
-        font_size: '20dp'
-        text: 'back'
-        on_press: app.root.current = 'anzan_menu'
+        Button:
+            font_size: '20dp'
+            text: 'back'
+            on_release: app.root.current = 'anzan_menu'
+        Button:
+            font_size: '20dp'
+            text: 'next'
+            on_release: root.parent.new_exercise()
+        Button:
+            font_size: '20dp'
+            text: 'retry'
+            on_release: root.parent.repeat_exercise()
 
 
 <KeyboardButton@Button>:
@@ -111,7 +133,7 @@
             on_press: root.key_press(self.text)
         KeyboardButton:
             text: 'ok'
-            on_press: root.parent.check_answer(root.number)
+            on_press: root.ok()
 
 <AnzanMenuScreen>:
     GridLayout:
@@ -120,38 +142,32 @@
         padding: '30dp'
         MenuButton:
             text: 'Flash'
-            on_press: root.manager.current = 'play_flash_anzan'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'List'
-            on_press: root.manager.current = 'play_flash_anzan'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Manual'
             on_press: root.manager.current = 'play_manual_anzan'
         MenuButton:
             text: 'Drag'
-            on_press: root.manager.current = 'play_drag_anzan'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Endurance'
-            on_press: root.manager.current = 'play_endurance_anzan'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Multiple'
-            on_press: root.manager.current = 'play_endurance_anzan'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Audio'
-            on_press: root.manager.current = 'play_endurance_anzan'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Exam'
-            on_press: root.manager.current = 'play_endurance_anzan'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Back'
-            on_press: root.manager.current = 'main_menu'
+            on_release: root.manager.current = 'main_menu'
 
-<Widget>:
-    canvas.after:
-        Line:
-            rectangle: self.x+1,self.y+1,self.width-1,self.height-1
-            dash_offset: 5
-            dash_length: 3
 
 # MANUAL #
 <AnzanManual>:
@@ -188,10 +204,10 @@
         padding: '30dp'
         MenuButton:
             text: 'Play'
-            on_press: root.manager.current = 'play_date'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Back'
-            on_press: root.manager.current = 'main_menu'
+            on_release: root.manager.current = 'main_menu'
 
 <SettingsMenuScreen>:
     BoxLayout:
@@ -200,6 +216,7 @@
         padding: '30dp'
         MenuButton:
             text: 'My settings button'
+            on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Back to menu'
-            on_press: root.manager.current = 'main_menu'
+            on_release: root.manager.current = 'main_menu'
