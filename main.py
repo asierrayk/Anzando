@@ -2,7 +2,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
-from kivy.properties import StringProperty, NumericProperty, ReferenceListProperty, ObjectProperty, BooleanProperty
+from kivy.properties import StringProperty, NumericProperty, ListProperty, ObjectProperty, BooleanProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import NoTransition
 from kivy.factory import Factory
@@ -116,16 +116,20 @@ class AnzanManual(BoxLayout):
         except StopIteration:
             self.parent.show_keyboard('keyboard_layout')
 
+class AnzanManualConfiguration(BoxLayout):
+    digits_values = ListProperty(map(str, list(range(1,6))))
+
 class AnzanManualRoot(BoxLayout):
 
     def __init__(self, **kwargs):
         super(AnzanManualRoot,self).__init__(**kwargs)
-        self.numbers, self.result = anzan_addition()
-        anzan_manual = Factory.AnzanManual(self.numbers)
-        self.add_widget(anzan_manual)
+        self.manual_configuration = Factory.AnzanManualConfiguration()
+        self.add_widget(self.manual_configuration)
 
     def new_exercise(self):
-        self.numbers, self.result = anzan_addition()
+        self.numbers, self.result = anzan_addition(
+            digits=int(self.manual_configuration.digits.text))
+
         self.clear_widgets()
         anzan_manual = Factory.AnzanManual(self.numbers)
         self.add_widget(anzan_manual)

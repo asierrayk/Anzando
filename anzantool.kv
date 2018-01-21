@@ -22,15 +22,19 @@
             on_release: app.stop()
 
 <NotImplementedPopup@Popup>:
-    size_hint: .5, .5
+    size_hint_x: .8
+    size_hint_y: None
+    height: root.width
     auto_dismiss: False
     title: 'Information'
     title_size: '30dp'
     Button:
         text: 'This feature is not implemented yet'
-        text_size: root.width, None
+        text_size: self.width, self.height
         font_size: '20dp'
         halign: 'center'
+        valign: 'middle'
+        padding: [1,1]
         on_release: root.dismiss()
 
 ####### ANZAN #######
@@ -179,6 +183,21 @@
         font_size: '200dp'
         text: str(root.current_number)
         on_press: root.next_number()
+
+<AnzanManualConfiguration>:
+    orientation: 'vertical'
+    digits: digits_spinner
+    GridLayout:
+        cols: 2
+        Label:
+            text: 'digits'
+        Spinner:
+            id: digits_spinner
+            text: '1'
+            values: root.digits_values
+    Button:
+        text: 'Start'
+        on_release: root.parent.new_exercise()
 
 <AnzanManualRoot>:
 
