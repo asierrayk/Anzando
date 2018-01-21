@@ -118,17 +118,26 @@ class AnzanManual(BoxLayout):
 
 class AnzanManualConfiguration(BoxLayout):
     digits_values = ListProperty(map(str, list(range(1,6))))
+    times_values = ListProperty(["3","4","5","7","10","15","25","100"])
 
 class AnzanManualRoot(BoxLayout):
 
     def __init__(self, **kwargs):
         super(AnzanManualRoot,self).__init__(**kwargs)
-        self.manual_configuration = Factory.AnzanManualConfiguration()
+        self.show_config()
+
+    def show_config(self):
+        self.clear_widgets()
+        if not hasattr(self, 'manual_configuration'):
+            self.manual_configuration = Factory.AnzanManualConfiguration()
         self.add_widget(self.manual_configuration)
 
     def new_exercise(self):
         self.numbers, self.result = anzan_addition(
-            digits=int(self.manual_configuration.digits.text))
+            digits=int(self.manual_configuration.digits.text),
+            times=int(self.manual_configuration.times.text),
+            negative=self.manual_configuration.negative.active,
+            fixed=self.manual_configuration.fixed.active)
 
         self.clear_widgets()
         anzan_manual = Factory.AnzanManual(self.numbers)
@@ -153,6 +162,9 @@ class AnzanManualRoot(BoxLayout):
             print(True)
         else:
             print(False)
+
+    def go_back(self):
+        App.get_running_app().root.current = 'anzan_menu'
 
 class AnzanManualScreen(Screen):
     pass

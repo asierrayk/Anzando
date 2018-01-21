@@ -38,47 +38,6 @@
         on_release: root.dismiss()
 
 ####### ANZAN #######
-
-<AnzanResult>:
-    orientation: 'vertical'
-    Button:
-        size_hint_y: .7
-        background_color: 0, 0, 0, 1
-        text: root.mark
-        font_size: '72dp'
-        on_release: root.parent.new_exercise()
-    BoxLayout:
-        size_hint_y: .1
-        Label:
-            text: "Result"
-            font_size: '30dp'
-        Label:
-            text: str(root.result)
-            font_size: '30dp'
-    BoxLayout:
-        size_hint_y: .1
-        Label:
-            text: "Your answer"
-            font_size: '30dp'
-        Label:
-            text: str(root.answer)
-            font_size: '30dp'
-    BoxLayout:
-        size_hint_y: .1
-        Button:
-            font_size: '20dp'
-            text: 'back'
-            on_release: app.root.current = 'anzan_menu'
-        Button:
-            font_size: '20dp'
-            text: 'next'
-            on_release: root.parent.new_exercise()
-        Button:
-            font_size: '20dp'
-            text: 'retry'
-            on_release: root.parent.repeat_exercise()
-
-
 <KeyboardButton@Button>:
     font_size: '32dp'
 
@@ -139,6 +98,49 @@
             text: 'ok'
             on_press: root.ok()
 
+<AnzanResult>:
+    orientation: 'vertical'
+    Button:
+        size_hint_y: .7
+        background_color: 0, 0, 0, 1
+        text: root.mark
+        font_size: '72dp'
+        on_release: root.parent.new_exercise()
+    BoxLayout:
+        size_hint_y: .1
+        Label:
+            text: "Result"
+            font_size: '30dp'
+        Label:
+            text: str(root.result)
+            font_size: '30dp'
+    BoxLayout:
+        size_hint_y: .1
+        Label:
+            text: "Your answer"
+            font_size: '30dp'
+        Label:
+            text: str(root.answer)
+            font_size: '30dp'
+    BoxLayout:
+        size_hint_y: .1
+        Button:
+            font_size: '20dp'
+            text: 'back'
+            on_release: root.parent.go_back()
+        Button:
+            font_size: '20dp'
+            text: 'next'
+            on_release: root.parent.new_exercise()
+        Button:
+            font_size: '20dp'
+            text: 'retry'
+            on_release: root.parent.repeat_exercise()
+        Button:
+            font_size: '20dp'
+            text: 'config'
+            on_release: root.parent.show_config()
+
 <AnzanMenuScreen>:
     GridLayout:
         cols: 2
@@ -187,14 +189,33 @@
 <AnzanManualConfiguration>:
     orientation: 'vertical'
     digits: digits_spinner
+    times: times_spinner
+    negative: negative_checkbox
+    fixed: fixed_checkbox
     GridLayout:
         cols: 2
         Label:
-            text: 'digits'
+            text: 'Digits'
         Spinner:
             id: digits_spinner
             text: '1'
             values: root.digits_values
+        Label:
+            text: 'Times'
+        Spinner:
+            id: times_spinner
+            text: '5'
+            values: root.times_values
+        Label:
+            text: 'Substraction'
+        CheckBox:
+            id: negative_checkbox
+            active: False
+        Label:
+            text: 'Fixed'
+        CheckBox:
+            id: fixed_checkbox
+            active: False
     Button:
         text: 'Start'
         on_release: root.parent.new_exercise()
