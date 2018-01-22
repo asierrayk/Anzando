@@ -6,8 +6,11 @@ from kivy.properties import StringProperty, NumericProperty, ListProperty, Objec
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import NoTransition
 from kivy.factory import Factory
+from kivy.clock import Clock
 
 from anzan import anzan_addition
+
+import time
 
 __version__ = '0.0.0'
 
@@ -78,11 +81,13 @@ class AnzanResult(BoxLayout):
     mark = StringProperty()
     result = NumericProperty()
     answer = NumericProperty()
+    elapsed_time = NumericProperty()
 
-    def __init__(self, result, answer, **kwargs):
+    def __init__(self, result, answer, elapsed_time, **kwargs):
         super(AnzanResult,self).__init__(**kwargs)
         self.result = result
         self.answer = answer
+        self.elapsed_time = elapsed_time
 
         if self.answer == self.result:
             self.mark = 'Correct!'
@@ -121,6 +126,7 @@ class AnzanManualConfiguration(BoxLayout):
     times_values = ListProperty(["3","4","5","7","10","15","25","100"])
 
 class AnzanManualRoot(BoxLayout):
+    elapsed_time = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super(AnzanManualRoot,self).__init__(**kwargs)
@@ -141,6 +147,7 @@ class AnzanManualRoot(BoxLayout):
 
         self.clear_widgets()
         anzan_manual = Factory.AnzanManual(self.numbers)
+        self.start_time = time.perf_counter()
         self.add_widget(anzan_manual)
 
     def repeat_exercise(self):
@@ -155,13 +162,11 @@ class AnzanManualRoot(BoxLayout):
         self.add_widget(keyboard)
 
     def check_answer(self, answer):
+        self.answer = answer
         self.clear_widgets()
-        check = Factory.AnzanResult(self.result, answer)
+        self.elapsed_time = time.perf_counter() - self.start_time
+        check = Factory.AnzanResult(self.result, self.answer, self.elapsed_time)
         self.add_widget(check)
-        if answer == self.result:
-            print(True)
-        else:
-            print(False)
 
     def go_back(self):
         App.get_running_app().root.current = 'anzan_menu'
