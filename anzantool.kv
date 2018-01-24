@@ -105,7 +105,7 @@
         background_color: 0, 0, 0, 1
         text: root.mark
         font_size: '72dp'
-        on_release: root.parent.new_exercise()
+        on_release: root.parent.next_exercise()
     BoxLayout:
         size_hint_y: .1
         Label:
@@ -139,7 +139,7 @@
         Button:
             font_size: '20dp'
             text: 'next'
-            on_release: root.parent.new_exercise()
+            on_release: root.parent.next_exercise()
         Button:
             font_size: '20dp'
             text: 'retry'
@@ -156,7 +156,7 @@
         padding: '30dp'
         MenuButton:
             text: 'Flash'
-            on_release: Factory.NotImplementedPopup().open()
+            on_press: root.manager.current = 'play_flash_anzan'
         MenuButton:
             text: 'List'
             on_release: Factory.NotImplementedPopup().open()
@@ -225,9 +225,8 @@
             active: False
     Button:
         text: 'Start'
-        on_release: root.parent.new_exercise()
+        on_release: root.parent.next_exercise()
 
-<AnzanManualRoot>:
 
 <AnzanManualScreen@Screen>:
     name: 'play_manual_anzan'
@@ -235,11 +234,51 @@
 
 # FLASH #
 <AnzanFlash>:
+    orientation: 'vertical'
+    Button:
+        size_hint_y: 1
+        background_color: 0, 0, 0, 1
+        font_size: '200dp'
+        text: str(root.current_number)
+
+<AnzanFlashConfiguration>:
+    orientation: 'vertical'
+    digits: digits_spinner
+    times: times_spinner
+    negative: negative_checkbox
+    fixed: fixed_checkbox
+    GridLayout:
+        cols: 2
+        Label:
+            text: 'Digits'
+        Spinner:
+            id: digits_spinner
+            text: '1'
+            values: root.digits_values
+        Label:
+            text: 'Times'
+        Spinner:
+            id: times_spinner
+            text: '5'
+            values: root.times_values
+        Label:
+            text: 'Substraction'
+        CheckBox:
+            id: negative_checkbox
+            active: False
+        Label:
+            text: 'Fixed'
+        CheckBox:
+            id: fixed_checkbox
+            active: False
+    Button:
+        text: 'Start'
+        on_release: root.parent.next_exercise()
 
 
-<AnzanFlashScreen>:
-    BoxLayout:
-        AnzanFlash:
+<AnzanFlashScreen@Screen>:
+    name: 'play_flash_anzan'
+    AnzanFlashRoot:
                 
 
 ####### GUESS THE DAY #######
