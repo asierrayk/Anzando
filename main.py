@@ -151,7 +151,7 @@ class AnzanFlash(BoxLayout):
     def __init__(self, numbers, **kwargs):
         super(AnzanFlash,self).__init__(**kwargs)
         self.iter_numbers = iter(numbers)
-        Clock.schedule_interval(self.next_number, 0.5)
+        self.flash_event = Clock.schedule_interval(self.next_number, 0.5)
 
     def next_number(self, dt):
         print(dt)
@@ -160,6 +160,7 @@ class AnzanFlash(BoxLayout):
             n = next(self.iter_numbers)
             self.current_number = str(n)
         except StopIteration:
+            self.flash_event.cancel()
             self.parent.show_keyboard('keyboard_layout')
 
 class AnzanFlashConfiguration(BoxLayout):
