@@ -7,6 +7,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import NoTransition
 from kivy.factory import Factory
 from kivy.clock import Clock
+from kivy.animation import Animation
 
 from anzan import anzan_addition
 
