@@ -59,7 +59,7 @@ class AnzanRoot(BoxLayout):
         self.clear_widgets()
         self.game = self.game_factory(numbers=self.numbers)
         self.add_widget(self.game)
-        self.start_time = time.perf_counter()
+        self.start_time = time.time()
         self.game.start()
 
     def next_exercise(self):
@@ -69,17 +69,17 @@ class AnzanRoot(BoxLayout):
     def repeat_exercise(self):
         self.clear_widgets()
         self.add_widget(self.game)
-        self.start_time = time.perf_counter()
+        self.start_time = time.time()
         self.game.start()
 
     def show_keyboard(self, keyboard_layout):
-        self.end_time = time.perf_counter()
+        self.end_time = time.time()
         self.clear_widgets()
         keyboard = Factory.AnzanKeyboard()
         self.add_widget(keyboard)
 
     def check_answer(self, answer):
-        self.answer_time = time.perf_counter()
+        self.answer_time = time.time()
         self.total_elapsed_time = self.answer_time - self.start_time
         self.answer_elapsed_time = self.answer_time - self.end_time
         self.exercise_elapsed_time = self.end_time - self.start_time
@@ -224,7 +224,7 @@ class AnzanFlashRoot(AnzanRoot):
         self.game = self.game_factory(
             numbers=self.numbers, delay=float(
                 self.configuration.delay.text))
-        self.start_time = time.perf_counter()
+        self.start_time = time.time()
         self.add_widget(self.game)
         self.game.start()
 
