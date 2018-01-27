@@ -13,27 +13,36 @@ from anzan import anzan_addition
 
 import time
 
-__version__ = '0.0.0'
+from version import __version__
 
 ####### MENUS #######
+
+
 class MainMenuScreen(Screen):
     pass
+
 
 class AnzanMenuScreen(Screen):
     pass
 
+
 class DateMenuScreen(Screen):
     pass
+
 
 class SettingsMenuScreen(Screen):
     pass
 
 ####### ANZAN #######
+
+
 class AnzanRoot(BoxLayout):
     configuration = ObjectProperty()
     game_factory = ObjectProperty()
     result_factory = ObjectProperty()
-    elapsed_time = NumericProperty(0)
+    total_elapsed_time = NumericProperty(0)
+    exercise_elapsed_time = NumericProperty(0)
+    answer_elapsed_time = NumericProperty(0)
 
     def show_config(self):
         self.clear_widgets()
@@ -48,9 +57,10 @@ class AnzanRoot(BoxLayout):
 
     def show_exercise(self):
         self.clear_widgets()
-        game = self.game_factory(self.numbers)
+        self.game = self.game_factory(numbers=self.numbers)
+        self.add_widget(self.game)
         self.start_time = time.perf_counter()
-        self.add_widget(game)
+        self.game.start()
 
     def next_exercise(self):
         self.new_exercise()
@@ -58,27 +68,37 @@ class AnzanRoot(BoxLayout):
 
     def repeat_exercise(self):
         self.clear_widgets()
-        game = self.game_factory(self.numbers)
-        self.add_widget(game)
+        self.add_widget(self.game)
+        self.start_time = time.perf_counter()
+        self.game.start()
 
     def show_keyboard(self, keyboard_layout):
+        self.end_time = time.perf_counter()
         self.clear_widgets()
         keyboard = Factory.AnzanKeyboard()
         self.add_widget(keyboard)
 
     def check_answer(self, answer):
+        self.answer_time = time.perf_counter()
+        self.total_elapsed_time = self.answer_time - self.start_time
+        self.answer_elapsed_time = self.answer_time - self.end_time
+        self.exercise_elapsed_time = self.end_time - self.start_time
+
         self.answer = answer
         self.clear_widgets()
-        self.elapsed_time = time.perf_counter() - self.start_time
-        check = self.result_factory(self.result, self.answer, self.elapsed_time)
+        check = self.result_factory(
+            result=self.result, answer=self.answer,
+            total_elapsed_time=self.total_elapsed_time)
         self.add_widget(check)
 
     def go_back(self):
         App.get_running_app().root.current = 'anzan_menu'
 
+
 class AnzanConfiguration(BoxLayout):
-    digits_values = ListProperty(map(str, list(range(1,6))))
-    times_values = ListProperty(["3","4","5","7","10","15","25","100"])
+    digits_values = ListProperty(map(str, list(range(1, 6))))
+    times_values = ListProperty(["3", "4", "5", "7", "10", "15", "25", "100"])
+
 
 class AnzanKeyboard(BoxLayout):
     number = NumericProperty(None, allownone=True)
@@ -127,17 +147,15 @@ class AnzanKeyboard(BoxLayout):
         if self.number is not None:
             self.parent.check_answer(self.number)
 
+
 class AnzanResult(BoxLayout):
     mark = StringProperty()
     result = NumericProperty()
     answer = NumericProperty()
-    elapsed_time = NumericProperty()
+    total_elapsed_time = NumericProperty()
 
-    def __init__(self, result, answer, elapsed_time, **kwargs):
-        super(AnzanResult,self).__init__(**kwargs)
-        self.result = result
-        self.answer = answer
-        self.elapsed_time = elapsed_time
+    def __init__(self, **kwargs):
+        super(AnzanResult, self).__init__(**kwargs)
 
         if self.answer == self.result:
             self.mark = 'Correct!'
@@ -148,45 +166,85 @@ class AnzanResult(BoxLayout):
 # FLASH #
 class AnzanFlash(BoxLayout):
     current_number = StringProperty()
+    numbers = ListProperty()
+    delay = NumericProperty(1)
 
-    def __init__(self, numbers, **kwargs):
-        super(AnzanFlash,self).__init__(**kwargs)
-        self.iter_numbers = iter(numbers)
-        self.flash_event = Clock.schedule_interval(self.next_number, 0.5)
+    def __init__(self, **kwargs):
+        super(AnzanFlash, self).__init__(**kwargs)
+
+    def start(self):
+        self.iter_numbers = iter(self.numbers)
+        self.flash_event = Clock.schedule_interval(
+            self.next_number, self.delay)
+
+    def op(self, dt):
+        self.number.opacity = 1
+
+    def blink(self):
+        self.number.opacity = 0
+        anim = Animation(opacity=1, duration=0.2*self.delay, t='in_out_expo')
+        anim.start(self.number)
 
     def next_number(self, dt):
         print(dt)
-        print(type(dt))
         try:
+            # self.op_event = Clock.schedule_once(self.op, 0.2*self.delay)
+            self.blink()
             n = next(self.iter_numbers)
             self.current_number = str(n)
         except StopIteration:
             self.flash_event.cancel()
             self.parent.show_keyboard('keyboard_layout')
 
+
 class AnzanFlashConfiguration(BoxLayout):
-    digits_values = ListProperty(map(str, list(range(1,6))))
-    times_values = ListProperty(["3","4","5","7","10","15","25","100"])
+    digits_values = ListProperty(map(str, list(range(1, 6))))
+    times_values = ListProperty(["3", "4", "5", "7", "10", "15", "25", "100"])
+    delay_values = ListProperty(["1",
+                                 "0.9",
+                                 "0.8",
+                                 "0.7",
+                                 "0.6",
+                                 "0.5",
+                                 "0.4",
+                                 "0.3"])
+
 
 class AnzanFlashRoot(AnzanRoot):
 
     def __init__(self, **kwargs):
-        super(AnzanFlashRoot,self).__init__(**kwargs)
+        super(AnzanFlashRoot, self).__init__(**kwargs)
         self.game_factory = Factory.AnzanFlash
         self.result_factory = Factory.AnzanResult
         self.configuration = Factory.AnzanFlashConfiguration()
         self.show_config()
 
+    def show_exercise(self):
+        self.clear_widgets()
+        self.game = self.game_factory(
+            numbers=self.numbers, delay=float(
+                self.configuration.delay.text))
+        self.start_time = time.perf_counter()
+        self.add_widget(self.game)
+        self.game.start()
+
+
 class AnzanFlashScreen(Screen):
     pass
 
 # MANUAL #
+
+
 class AnzanManual(BoxLayout):
     current_number = StringProperty()
+    numbers = ListProperty()
 
-    def __init__(self, numbers, **kwargs):
-        super(AnzanManual,self).__init__(**kwargs)
-        self.iter_numbers = iter(numbers)
+    def __init__(self, **kwargs):
+        super(AnzanManual, self).__init__(**kwargs)
+        self.start()
+
+    def start(self):
+        self.iter_numbers = iter(self.numbers)
         self.next_number()
 
     def next_number(self):
@@ -196,31 +254,40 @@ class AnzanManual(BoxLayout):
         except StopIteration:
             self.parent.show_keyboard('keyboard_layout')
 
+
 class AnzanManualConfiguration(BoxLayout):
-    digits_values = ListProperty(map(str, list(range(1,6))))
-    times_values = ListProperty(["3","4","5","7","10","15","25","100"])
+    digits_values = ListProperty(map(str, list(range(1, 6))))
+    times_values = ListProperty(["3", "4", "5", "7", "10", "15", "25", "100"])
+
 
 class AnzanManualRoot(AnzanRoot):
 
     def __init__(self, **kwargs):
-        super(AnzanManualRoot,self).__init__(**kwargs)
+        super(AnzanManualRoot, self).__init__(**kwargs)
         self.game_factory = Factory.AnzanManual
         self.result_factory = Factory.AnzanResult
         self.configuration = Factory.AnzanManualConfiguration()
         self.show_config()
 
+
 class AnzanManualScreen(Screen):
     pass
 
 # AUDIO #
+
+
 class AnzanAudioScreen(Screen):
     pass
 
 # ENDURANCE #
+
+
 class AnzanEnduranceScreen(Screen):
     pass
 
 # DRAG #
+
+
 class AnzanDragScreen(Screen):
     pass
 
@@ -232,15 +299,16 @@ class AnzanToolApp(App):
         sm.add_widget(MainMenuScreen(name='main_menu'))
 
         sm.add_widget(AnzanMenuScreen(name='anzan_menu'))
-        sm.add_widget(AnzanManualScreen(name='play_manual_anzan'))
+        sm.add_widget(AnzanManualScreen())
         sm.add_widget(AnzanAudioScreen(name='play_audio_anzan'))
-        sm.add_widget(AnzanFlashScreen(name='play_flash_anzan'))
+        sm.add_widget(AnzanFlashScreen())
 
         sm.add_widget(DateMenuScreen(name='date_menu'))
 
         sm.add_widget(SettingsMenuScreen(name='settings_menu'))
 
         return sm
+
 
 if __name__ == '__main__':
     AnzanToolApp().run()

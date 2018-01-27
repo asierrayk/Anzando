@@ -128,7 +128,7 @@
             text: "Time"
             font_size: '30dp'
         Label:
-            text: '{0:.3f}'.format(root.elapsed_time)
+            text: '{0:.3f}'.format(root.total_elapsed_time)
             font_size: '30dp'
     BoxLayout:
         size_hint_y: .1
@@ -228,14 +228,16 @@
         on_release: root.parent.next_exercise()
 
 
-<AnzanManualScreen@Screen>:
+<AnzanManualScreen>:
     name: 'play_manual_anzan'
     AnzanManualRoot:
 
 # FLASH #
 <AnzanFlash>:
     orientation: 'vertical'
+    number: number_label
     Button:
+        id: number_label
         size_hint_y: 1
         background_color: 0, 0, 0, 1
         font_size: '200dp'
@@ -243,12 +245,20 @@
 
 <AnzanFlashConfiguration>:
     orientation: 'vertical'
+    delay: delay_spinner
     digits: digits_spinner
     times: times_spinner
     negative: negative_checkbox
     fixed: fixed_checkbox
     GridLayout:
         cols: 2
+        size_hint_y: 9
+        Label:
+            text: 'Delay'
+        Spinner:
+            id: delay_spinner
+            text: '1'
+            values: root.delay_values
         Label:
             text: 'Digits'
         Spinner:
@@ -272,11 +282,12 @@
             id: fixed_checkbox
             active: False
     Button:
+        size_hint_y: 1
         text: 'Start'
         on_release: root.parent.next_exercise()
 
 
-<AnzanFlashScreen@Screen>:
+<AnzanFlashScreen>:
     name: 'play_flash_anzan'
     AnzanFlashRoot:
                 
