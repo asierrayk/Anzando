@@ -17,10 +17,8 @@ class AnzanFlash(BoxLayout):
     numbers = ListProperty()
     delay = NumericProperty(1)
 
-    def __init__(self, **kwargs):
-        super(AnzanFlash, self).__init__(**kwargs)
-
     def start(self):
+        self.current_number = ''
         self.iter_numbers = iter(self.numbers)
         self.flash_event = Clock.schedule_interval(
             self.next_number, self.delay)
