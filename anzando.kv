@@ -2,7 +2,8 @@
 #:import App kivy.app.App
 
 #:import AnzanManualScreen anzando
-#:import AnzanFlashScreen anzando.addition_flash
+#:import AnzanFlashScreen anzando
+#:import AnzanListScreen anzando
 
 <ScreenMan>:
     MainMenuScreen:
@@ -10,6 +11,7 @@
     AnzanMenuScreen:
     AnzanManualScreen:
     AnzanFlashScreen:
+    AnzanListScreen:
 
 
     DateMenuScreen:
@@ -176,7 +178,7 @@
             on_press: root.manager.current = 'play_flash_anzan'
         MenuButton:
             text: 'List'
-            on_release: Factory.NotImplementedPopup().open()
+            on_press: root.manager.current = 'play_list_anzan'
         MenuButton:
             text: 'Manual'
             on_press: root.manager.current = 'play_manual_anzan'
