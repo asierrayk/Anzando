@@ -3,7 +3,7 @@
 from random import random, randint
 
 
-def anzan_addition(times=5, digits=1, fixed=True, negative=False, negative_proability=0.5):
+def addition_exercise(times=5, digits=1, fixed=True, negative=False, negative_proability=0.5):
     numbers = []
     result = 0
 

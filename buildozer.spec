@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = Anzan Tool
+title = Anzando
 
 # (str) Package name
-package.name = anzantool
+package.name = anzando
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.anzantool
+package.domain = org.anzando
 
 # (str) Source code where the main.py live
 source.dir = .

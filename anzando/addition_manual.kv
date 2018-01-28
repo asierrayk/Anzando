@@ -1,0 +1,48 @@
+<AnzanManual>:
+    orientation: 'vertical'
+    Button:
+        size_hint_y: 1
+        background_color: 0, 0, 0, 1
+        font_size: '200dp'
+        text: root.current_number
+        on_press: root.next_number()
+
+<AnzanManualConfiguration>:
+    orientation: 'vertical'
+    digits: digits_spinner
+    times: times_spinner
+    negative: negative_checkbox
+    fixed: fixed_checkbox
+    GridLayout:
+        cols: 2
+        Label:
+            text: 'Digits'
+        Spinner:
+            id: digits_spinner
+            text: '1'
+            values: root.digits_values
+        Label:
+            text: 'Times'
+        Spinner:
+            id: times_spinner
+            text: '5'
+            values: root.times_values
+        Label:
+            text: 'Substraction'
+        CheckBox:
+            id: negative_checkbox
+            active: False
+        Label:
+            text: 'Fixed'
+        CheckBox:
+            id: fixed_checkbox
+            active: False
+    Button:
+        text: 'Start'
+        on_release: root.parent.next_exercise()
+
+
+<AnzanManualScreen>:
+    name: 'play_manual_anzan'
+    AnzanManualRoot:
+

@@ -1,9 +1,25 @@
 #:import Factory kivy.factory.Factory
+#:import App kivy.app.App
+
+#:import AnzanManualScreen anzando
+#:import AnzanFlashScreen anzando.addition_flash
+
+<ScreenMan>:
+    MainMenuScreen:
+
+    AnzanMenuScreen:
+    AnzanManualScreen:
+    AnzanFlashScreen:
+
+
+    DateMenuScreen:
+
 
 <MenuButton@Button>:
     font_size: '32dp'
 
 <MainMenuScreen>:
+    name: 'main_menu'
     BoxLayout:
         orientation: 'vertical'
         spacing: '30dp'
@@ -19,7 +35,7 @@
             on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Quit'
-            on_release: app.stop()
+            on_release: App.get_running_app().stop()
 
 <NotImplementedPopup@Popup>:
     size_hint_x: .8
@@ -150,6 +166,7 @@
             on_release: root.parent.show_config()
 
 <AnzanMenuScreen>:
+    name: 'anzan_menu'
     GridLayout:
         cols: 2
         spacing: '30dp'
@@ -183,118 +200,10 @@
             on_release: root.manager.current = 'main_menu'
 
 
-# MANUAL #
-<AnzanManual>:
-    orientation: 'vertical'
-    Button:
-        size_hint_y: 1
-        background_color: 0, 0, 0, 1
-        font_size: '200dp'
-        text: root.current_number
-        on_press: root.next_number()
-
-<AnzanManualConfiguration>:
-    orientation: 'vertical'
-    digits: digits_spinner
-    times: times_spinner
-    negative: negative_checkbox
-    fixed: fixed_checkbox
-    GridLayout:
-        cols: 2
-        Label:
-            text: 'Digits'
-        Spinner:
-            id: digits_spinner
-            text: '1'
-            values: root.digits_values
-        Label:
-            text: 'Times'
-        Spinner:
-            id: times_spinner
-            text: '5'
-            values: root.times_values
-        Label:
-            text: 'Substraction'
-        CheckBox:
-            id: negative_checkbox
-            active: False
-        Label:
-            text: 'Fixed'
-        CheckBox:
-            id: fixed_checkbox
-            active: False
-    Button:
-        text: 'Start'
-        on_release: root.parent.next_exercise()
-
-
-<AnzanManualScreen>:
-    name: 'play_manual_anzan'
-    AnzanManualRoot:
-
-# FLASH #
-<AnzanFlash>:
-    orientation: 'vertical'
-    number: number_label
-    Button:
-        id: number_label
-        size_hint_y: 1
-        background_color: 0, 0, 0, 1
-        font_size: '200dp'
-        text: root.current_number
-
-<AnzanFlashConfiguration>:
-    orientation: 'vertical'
-    delay: delay_spinner
-    digits: digits_spinner
-    times: times_spinner
-    negative: negative_checkbox
-    fixed: fixed_checkbox
-    GridLayout:
-        cols: 2
-        size_hint_y: 9
-        Label:
-            text: 'Delay'
-        Spinner:
-            id: delay_spinner
-            text: '1'
-            values: root.delay_values
-        Label:
-            text: 'Digits'
-        Spinner:
-            id: digits_spinner
-            text: '1'
-            values: root.digits_values
-        Label:
-            text: 'Times'
-        Spinner:
-            id: times_spinner
-            text: '5'
-            values: root.times_values
-        Label:
-            text: 'Substraction'
-        CheckBox:
-            id: negative_checkbox
-            active: False
-        Label:
-            text: 'Fixed'
-        CheckBox:
-            id: fixed_checkbox
-            active: False
-    Button:
-        size_hint_y: 1
-        text: 'Start'
-        on_release: root.parent.next_exercise()
-
-
-<AnzanFlashScreen>:
-    name: 'play_flash_anzan'
-    AnzanFlashRoot:
-                
-
 ####### GUESS THE DAY #######
 
 <DateMenuScreen>:
+    name: 'date_menu'
     BoxLayout:
         orientation: 'vertical'
         spacing: '30dp'
@@ -307,6 +216,7 @@
             on_release: root.manager.current = 'main_menu'
 
 <SettingsMenuScreen>:
+    name: 'settings_menu'
     BoxLayout:
         orientation: 'vertical'
         spacing: '30dp'
