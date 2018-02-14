@@ -114,38 +114,67 @@
             text: 'ok'
             on_press: root.ok()
 
+<ResultButton@ButtonBehavior+BoxLayout>:
+
 <AnzanResult>:
     orientation: 'vertical'
-    Button:
-        size_hint_y: .7
-        background_color: 0, 0, 0, 1
-        text: root.mark
-        font_size: '72dp'
+    ResultButton:
         on_release: root.parent.next_exercise()
-    BoxLayout:
-        size_hint_y: .1
+        orientation: 'vertical'
+        size_hint_y: 1
         Label:
-            text: "Result"
-            font_size: '30dp'
-        Label:
-            text: str(root.result)
-            font_size: '30dp'
-    BoxLayout:
-        size_hint_y: .1
-        Label:
-            text: "Your answer"
-            font_size: '30dp'
-        Label:
-            text: str(root.answer)
-            font_size: '30dp'
-    BoxLayout:
-        size_hint_y: .1
-        Label:
-            text: "Time"
-            font_size: '30dp'
-        Label:
-            text: '{0:.3f}'.format(root.total_elapsed_time)
-            font_size: '30dp'
+            size_hint_y: .4
+            background_color: 0, 0, 0, 1
+            text: 'Correct!' if root.is_correct else str(root.result)
+            font_size: '72dp'
+        BoxLayout:
+            size_hint_y: .1
+            Label:
+                text: "Total time"
+                font_size: '30dp'
+            Label:
+                text: '{0:.3f}'.format(root.total_elapsed_time)
+                font_size: '30dp'
+        BoxLayout:
+            size_hint_y: .1
+            Label:
+                text: "Exercise time"
+                font_size: '30dp'
+            Label:
+                text: '{0:.3f}'.format(root.exercise_elapsed_time)
+                font_size: '30dp'
+        BoxLayout:
+            size_hint_y: .1
+            Label:
+                text: "Answer time"
+                font_size: '30dp'
+            Label:
+                text: '{0:.3f}'.format(root.answer_elapsed_time)
+                font_size: '30dp'
+        BoxLayout:
+            size_hint_y: .1
+            Label:
+                text: "Current streak"
+                font_size: '30dp'
+            Label:
+                text: str(root.current_streak)
+                font_size: '30dp'
+        BoxLayout:
+            size_hint_y: .1
+            Label:
+                text: "Best streak"
+                font_size: '30dp'
+            Label:
+                text: str(root.best_session_streak)
+                font_size: '30dp'
+        BoxLayout:
+            size_hint_y: .1
+            Label:
+                text: "Success rate"
+                font_size: '30dp'
+            Label:
+                text: str('{}/{}'.format(root.hits, root.hits+root.fails))
+                font_size: '30dp'
     BoxLayout:
         size_hint_y: .1
         Button:

@@ -20,9 +20,17 @@ class AnzanRoot(BoxLayout):
     exercise_elapsed_time = NumericProperty(0)
     answer_elapsed_time = NumericProperty(0)
 
+    hits = NumericProperty(0)
+    fails = NumericProperty(0)
+
+    current_streak = NumericProperty(0)
+    best_session_streak = NumericProperty(0)
+
     def show_config(self):
         self.clear_widgets()
         self.add_widget(self.configuration)
+        self.current_streak = 0
+        self.best_session_streak = 0
 
     def new_exercise(self):
         self.numbers, self.result = utils.addition_exercise(
@@ -61,14 +69,34 @@ class AnzanRoot(BoxLayout):
         self.exercise_elapsed_time = self.end_time - self.start_time
 
         self.answer = answer
+        self.is_correct = (self.answer == self.result)
+
+        if self.is_correct:
+            self.hits += 1
+            self.current_streak += 1
+            if self.current_streak > self.best_session_streak:
+                self.best_session_streak = self.current_streak
+        else:
+            self.fails += 1
+            self.current_streak = 0
+
         self.clear_widgets()
         check = self.result_factory(
+            is_correct=self.is_correct,
             result=self.result, answer=self.answer,
-            total_elapsed_time=self.total_elapsed_time)
+            total_elapsed_time=self.total_elapsed_time,
+            exercise_elapsed_time=self.exercise_elapsed_time,
+            answer_elapsed_time=self.answer_elapsed_time,
+            current_streak=self.current_streak,
+            best_session_streak=self.best_session_streak,
+            hits=self.hits,
+            fails=self.fails)
+
         self.add_widget(check)
 
     def go_back(self):
         App.get_running_app().root.current = 'anzan_menu'
+        self.show_config()
 
 
 class AnzanConfiguration(BoxLayout):
@@ -125,15 +153,13 @@ class AnzanKeyboard(BoxLayout):
 
 
 class AnzanResult(BoxLayout):
-    mark = StringProperty()
+    is_correct = BooleanProperty()
     result = NumericProperty()
     answer = NumericProperty()
     total_elapsed_time = NumericProperty()
-
-    def __init__(self, **kwargs):
-        super(AnzanResult, self).__init__(**kwargs)
-
-        if self.answer == self.result:
-            self.mark = 'Correct!'
-        else:
-            self.mark = 'Wrong'
+    exercise_elapsed_time = NumericProperty()
+    answer_elapsed_time = NumericProperty()
+    current_streak = NumericProperty()
+    best_session_streak = NumericProperty()
+    hits = NumericProperty()
+    fails = NumericProperty()
