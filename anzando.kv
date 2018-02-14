@@ -32,7 +32,7 @@
             on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Settings'
-            on_release: Factory.NotImplementedPopup().open()
+            on_release: app.open_settings()
         MenuButton:
             text: 'Quit'
             on_release: App.get_running_app().stop()
