@@ -22,6 +22,7 @@ class AnzanManual(BoxLayout):
         self.next_number()
 
     def next_number(self):
+        self.blink()
         try:
             n = next(self.iter_numbers)
             self.current_number = str(n)
