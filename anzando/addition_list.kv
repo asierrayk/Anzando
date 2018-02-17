@@ -1,7 +1,10 @@
+<ListButton@ButtonBehavior+RecycleBoxLayout>:
+
 <AnzanList>:
     viewclass: 'Label'
     data: [dict(text=str(n)) for n in root.numbers]
-    RecycleBoxLayout:
+    ListButton:
+        on_press: root.end()
         default_size: None, dp(56)
         default_size_hint: 1, None
         size_hint_y: None
