@@ -29,7 +29,7 @@ class AnzandoApp(App):
     use_kivy_settings = False
 
     def build(self):
-        self.settings_cls = settings.SettingsWithSidebar
+        self.settings_cls = settings.SettingsWithTabbedPanel
         return ScreenMan(transition=NoTransition())
 
     def build_config(self, config):

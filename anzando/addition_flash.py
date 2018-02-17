@@ -23,9 +23,6 @@ class AnzanFlash(BoxLayout):
         self.flash_event = Clock.schedule_interval(
             self.next_number, self.delay)
 
-    def op(self, dt):
-        self.number.opacity = 1
-
     def blink(self):
         self.number.opacity = 0
         anim = Animation(opacity=1, duration=0.2*self.delay, t='in_out_expo')

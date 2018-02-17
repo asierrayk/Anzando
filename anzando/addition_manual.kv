@@ -1,11 +1,14 @@
 <AnzanManual>:
     orientation: 'vertical'
+    number: number_button
     Button:
+        id: number_button
         size_hint_y: 1
         background_color: 0, 0, 0, 1
         font_size: '200dp'
         text: root.current_number
-        on_press: root.next_number()
+        on_release: root.next_number()
+        on_press: root.blink()
 
 <AnzanManualConfiguration>:
     orientation: 'vertical'

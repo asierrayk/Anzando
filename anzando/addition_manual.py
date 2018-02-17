@@ -3,6 +3,7 @@ from kivy.properties import StringProperty, ListProperty
 from kivy.factory import Factory
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
+from kivy.animation import Animation
 
 from .addition import AnzanRoot, AnzanResult
 
@@ -26,6 +27,11 @@ class AnzanManual(BoxLayout):
             self.current_number = str(n)
         except StopIteration:
             self.parent.show_keyboard('keyboard_layout')
+
+    def blink(self):
+        self.number.opacity = 0
+        anim = Animation(opacity=1, duration=0.1, t='in_out_expo')
+        anim.start(self.number)
 
 
 class AnzanManualConfiguration(BoxLayout):
