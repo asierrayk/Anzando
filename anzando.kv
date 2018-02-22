@@ -18,7 +18,18 @@
 
 
 <MenuButton@Button>:
-    font_size: '32dp'
+    font_size: '48dp'
+    text_size: root.size
+    halign: 'center'
+    valign: 'middle'
+    background_color: 0, 0, 0, 0
+    canvas.before:
+        Color:
+            rgba: (0, 0, 20, 0.3)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]
 
 <MainMenuScreen>:
     name: 'main_menu'
@@ -57,28 +68,53 @@
 
 ####### ANZAN #######
 <KeyboardButton@Button>:
-    font_size: '32dp'
+    halign: 'center'
+    valign: 'center'
+    font_size: '48dp'
+    font_name: 'data/fonts/Roboto-Bold.ttf'
+    background_color: 0, 0, 0, 0
+    canvas.before:
+        Color:
+            rgba: (0, 0, 20, 0.3)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]
+
+<KeyboardCircularButton@Button>:
+    halign: 'center'
+    valign: 'center'
+    font_size: '48dp'
+    font_name: 'data/fonts/Roboto-Bold.ttf'
+    background_color: 0, 0, 0, 0
+    canvas.before:
+        Color:
+            rgba: (0, 0, 20, 0.3)
+        Ellipse:
+            size: self.size
+            pos: self.pos
 
 <AnzanKeyboard>:
     orientation: 'vertical'
     answer: answer_display
     BoxLayout:
+        padding: ['30dp', '30dp', '30dp', 0]
         size_hint_y: .2
         Label:
             id: answer_display
             text: root.answer_text
             font_size: '72dp'
-            size_hint_x: .8
-            multiline: False
-        Button:
-            text: '<-'
             size_hint_x: .2
+            multiline: False
+        KeyboardCircularButton:
+            text: 'C'
+            size_hint_x: .1
             on_press: root.clear()
     GridLayout:
         size_hint_y: .8
         cols: 3
+        padding: '30dp'
         spacing: '10dp'
-        padding: '10dp'
         KeyboardButton:
             text: '1'
             on_press: root.key_press(self.text)
@@ -212,19 +248,7 @@
             text: 'Manual'
             on_press: root.manager.current = 'play_manual_anzan'
         MenuButton:
-            text: 'Drag'
-            on_release: Factory.NotImplementedPopup().open()
-        MenuButton:
-            text: 'Endurance'
-            on_release: Factory.NotImplementedPopup().open()
-        MenuButton:
-            text: 'Multiple'
-            on_release: Factory.NotImplementedPopup().open()
-        MenuButton:
             text: 'Audio'
-            on_release: Factory.NotImplementedPopup().open()
-        MenuButton:
-            text: 'Exam'
             on_release: Factory.NotImplementedPopup().open()
         MenuButton:
             text: 'Back'
