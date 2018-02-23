@@ -15,31 +15,35 @@
     times: times_spinner
     negative: negative_checkbox
     fixed: fixed_checkbox
+    padding: '30dp'
     GridLayout:
+        size_hint_y: 9
         cols: 2
-        Label:
+        CustomLabel:
             text: 'Digits'
         Spinner:
             id: digits_spinner
             text: '1'
             values: root.digits_values
-        Label:
+        CustomLabel:
             text: 'Times'
         Spinner:
             id: times_spinner
             text: '5'
             values: root.times_values
-        Label:
+        CustomLabel:
             text: 'Substraction'
         CheckBox:
             id: negative_checkbox
+            size: self.size
             active: False
-        Label:
+        CustomLabel:
             text: 'Fixed'
         CheckBox:
             id: fixed_checkbox
             active: False
-    Button:
+    MenuButton:
+        size_hint_y: 1
         text: 'Start'
         on_release: root.parent.next_exercise()
 

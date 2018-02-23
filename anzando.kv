@@ -31,6 +31,14 @@
             size: self.size
             radius: [10,]
 
+<CustomLabel@Label>:
+    font_size: '48dp'
+    font_name: 'data/fonts/Roboto-Bold.ttf'
+    text_size: root.size
+    halign: 'center'
+    valign: 'middle'
+    background_color: 0, 0, 0, 0
+
 <MainMenuScreen>:
     name: 'main_menu'
     BoxLayout:
@@ -155,81 +163,68 @@
 <ResultButton@ButtonBehavior+BoxLayout>:
 
 <AnzanResult>:
+    padding: '30dp'
+    spacing: '30dp'
     orientation: 'vertical'
     ResultButton:
         on_release: root.parent.next_exercise()
         orientation: 'vertical'
-        size_hint_y: 1
+        size_hint_y: 9
+        spacing: '10dp'
         Label:
-            size_hint_y: .4
+            size_hint_y: 3
             background_color: 0, 0, 0, 1
             text: 'Correct!' if root.is_correct else str(root.result)
-            font_size: '72dp'
+            font_size: '90dp'
         BoxLayout:
-            size_hint_y: .1
-            Label:
+            size_hint_y: 1
+            CustomLabel:
                 text: "Total time"
-                font_size: '30dp'
-            Label:
+            CustomLabel:
                 text: '{0:.3f}'.format(root.total_elapsed_time)
-                font_size: '30dp'
         BoxLayout:
-            size_hint_y: .1
-            Label:
+            size_hint_y: 1
+            CustomLabel:
                 text: "Exercise time"
-                font_size: '30dp'
-            Label:
+            CustomLabel:
                 text: '{0:.3f}'.format(root.exercise_elapsed_time)
-                font_size: '30dp'
         BoxLayout:
-            size_hint_y: .1
-            Label:
+            size_hint_y: 1
+            CustomLabel:
                 text: "Answer time"
-                font_size: '30dp'
-            Label:
+            CustomLabel:
                 text: '{0:.3f}'.format(root.answer_elapsed_time)
-                font_size: '30dp'
         BoxLayout:
-            size_hint_y: .1
-            Label:
+            size_hint_y: 1
+            CustomLabel:
                 text: "Current streak"
-                font_size: '30dp'
-            Label:
+            CustomLabel:
                 text: str(root.current_streak)
-                font_size: '30dp'
         BoxLayout:
-            size_hint_y: .1
-            Label:
+            size_hint_y: 1
+            CustomLabel:
                 text: "Best streak"
-                font_size: '30dp'
-            Label:
+            CustomLabel:
                 text: str(root.best_session_streak)
-                font_size: '30dp'
         BoxLayout:
-            size_hint_y: .1
-            Label:
+            size_hint_y: 1
+            CustomLabel:
                 text: "Success rate"
-                font_size: '30dp'
-            Label:
+            CustomLabel:
                 text: str('{}/{}'.format(root.hits, root.hits+root.fails))
-                font_size: '30dp'
-    BoxLayout:
-        size_hint_y: .1
-        Button:
-            font_size: '20dp'
-            text: 'back'
+    GridLayout:
+        size_hint_y: 1
+        cols: 3
+        orientation: 'horizontal'
+        spacing: '30dp'
+        MenuButton:
+            text: 'Back'
             on_release: root.parent.go_back()
-        Button:
-            font_size: '20dp'
-            text: 'next'
-            on_release: root.parent.next_exercise()
-        Button:
-            font_size: '20dp'
-            text: 'retry'
+        MenuButton:
+            text: 'Retry'
             on_release: root.parent.repeat_exercise()
-        Button:
-            font_size: '20dp'
-            text: 'config'
+        MenuButton:
+            text: 'Config'
             on_release: root.parent.show_config()
 
 <AnzanMenuScreen>:

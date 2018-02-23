@@ -1,49 +1,56 @@
 <ListButton@ButtonBehavior+RecycleBoxLayout>:
 
+<NumberLabel@Label>:
+    size_hint_y: 1
+    background_color: 0, 0, 0, 1
+    font_size: '50dp'
+
 <AnzanList>:
-    viewclass: 'Label'
+    viewclass: 'NumberLabel'
     data: [dict(text=str(n)) for n in root.numbers]
     ListButton:
         on_press: root.end()
-        default_size: None, dp(56)
-        default_size_hint: 1, None
-        size_hint_y: None
+        valign: 'middle'
+        halign: 'middle'
         height: self.minimum_height
         orientation: 'vertical'
 
 
 <AnzanListConfiguration>:
     orientation: 'vertical'
+    padding: '30dp'
     digits: digits_spinner
     times: times_spinner
     negative: negative_checkbox
     fixed: fixed_checkbox
     GridLayout:
+        size_hint_y: 9
         cols: 2
-        Label:
+        CustomLabel:
             text: 'Digits'
         Spinner:
             id: digits_spinner
             text: '1'
             values: root.digits_values
-        Label:
+        CustomLabel:
             text: 'Times'
         Spinner:
             id: times_spinner
             text: '5'
             values: root.times_values
-        Label:
+        CustomLabel:
             text: 'Substraction'
         CheckBox:
             id: negative_checkbox
             active: False
-        Label:
+        CustomLabel:
             text: 'Fixed'
         CheckBox:
             id: fixed_checkbox
             active: False
-    Button:
+    MenuButton:
         text: 'Start'
+        size_hint_y: 1
         on_release: root.parent.next_exercise()
 
 
