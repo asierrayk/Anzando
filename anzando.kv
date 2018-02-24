@@ -5,6 +5,11 @@
 #:import AnzanFlashScreen anzando
 #:import AnzanListScreen anzando
 
+
+#:set screen_padding '20dp'
+#:set screen_spacing '20dp'
+#:set font_size '48dp'
+
 <ScreenMan>:
     MainMenuScreen:
 
@@ -18,7 +23,7 @@
 
 
 <MenuButton@Button>:
-    font_size: '48dp'
+    font_size: font_size
     text_size: root.size
     halign: 'center'
     valign: 'middle'
@@ -32,7 +37,7 @@
             radius: [10,]
 
 <CustomLabel@Label>:
-    font_size: '48dp'
+    font_size: font_size
     font_name: 'data/fonts/Roboto-Bold.ttf'
     text_size: root.size
     halign: 'center'
@@ -43,8 +48,8 @@
     name: 'main_menu'
     BoxLayout:
         orientation: 'vertical'
-        spacing: '30dp'
-        padding: '30dp'
+        spacing: screen_spacing
+        padding: screen_padding
         MenuButton:
             text: 'Anzan'
             on_release: root.manager.current = 'anzan_menu'
@@ -106,7 +111,7 @@
     orientation: 'vertical'
     answer: answer_display
     BoxLayout:
-        padding: ['30dp', '30dp', '30dp', 0]
+        padding: [screen_padding, screen_padding, screen_padding, 0]
         size_hint_y: .2
         Label:
             id: answer_display
@@ -121,7 +126,7 @@
     GridLayout:
         size_hint_y: .8
         cols: 3
-        padding: '30dp'
+        padding: screen_padding
         spacing: '10dp'
         KeyboardButton:
             text: '1'
@@ -163,14 +168,14 @@
 <ResultButton@ButtonBehavior+BoxLayout>:
 
 <AnzanResult>:
-    padding: '30dp'
-    spacing: '30dp'
+    padding: screen_padding
+    spacing: screen_spacing
     orientation: 'vertical'
     ResultButton:
         on_release: root.parent.next_exercise()
         orientation: 'vertical'
         size_hint_y: 9
-        spacing: '10dp'
+        spacing: screen_spacing
         Label:
             size_hint_y: 3
             background_color: 0, 0, 0, 1
@@ -216,7 +221,7 @@
         size_hint_y: 1
         cols: 3
         orientation: 'horizontal'
-        spacing: '30dp'
+        spacing: screen_spacing
         MenuButton:
             text: 'Back'
             on_release: root.parent.go_back()
@@ -231,8 +236,8 @@
     name: 'anzan_menu'
     GridLayout:
         cols: 2
-        spacing: '30dp'
-        padding: '30dp'
+        spacing: screen_spacing
+        padding: screen_padding
         MenuButton:
             text: 'Flash'
             on_press: root.manager.current = 'play_flash_anzan'
@@ -256,8 +261,8 @@
     name: 'date_menu'
     BoxLayout:
         orientation: 'vertical'
-        spacing: '30dp'
-        padding: '30dp'
+        spacing: screen_spacing
+        padding: screen_padding
         MenuButton:
             text: 'Play'
             on_release: Factory.NotImplementedPopup().open()
@@ -265,15 +270,3 @@
             text: 'Back'
             on_release: root.manager.current = 'main_menu'
 
-<SettingsMenuScreen>:
-    name: 'settings_menu'
-    BoxLayout:
-        orientation: 'vertical'
-        spacing: '30dp'
-        padding: '30dp'
-        MenuButton:
-            text: 'My settings button'
-            on_release: Factory.NotImplementedPopup().open()
-        MenuButton:
-            text: 'Back to menu'
-            on_release: root.manager.current = 'main_menu'
